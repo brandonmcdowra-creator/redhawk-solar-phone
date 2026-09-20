@@ -1,4 +1,5 @@
 # Redhawk Solar (phone)
 
-Open in Safari:
-https://cdn.jsdelivr.net/gh/brandonmcdowra-creator/redhawk-solar-phone@main/index.html
+Live: https://brandonmcdowra-creator.github.io/redhawk-solar-phone/
+
+Tabs: Roof · Bay · Wire · List
