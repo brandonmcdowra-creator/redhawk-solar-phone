@@ -1,1 +1,491 @@
-PLACEHOLDER_WILL_REPLACE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Redhawk Solar"/>
+<meta name="theme-color" content="#0f1419"/>
+<title>Redhawk Solar</title>
+<style>
+:root{--bg:#0f1419;--card:#1a2332;--line:#2a3a4f;--text:#e8eef6;--muted:#9aa8bc;--accent:#3b82f6;--ok:#22c55e;--warn:#f59e0b;--hot:#f97316}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:30;background:rgba(15,20,25,.95);border-bottom:1px solid var(--line);padding:.75rem 1rem}
+h1{margin:0;font-size:1.08rem}.sub{color:var(--muted);font-size:.78rem;margin-top:.15rem}
+nav{display:flex;gap:.35rem;padding:.55rem 1rem;position:sticky;top:62px;z-index:29;background:var(--bg)}
+nav button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:.5rem .25rem;font-weight:600;font-size:.85rem}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{padding:0 1rem 4.8rem}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.9rem;margin:0 0 .85rem}
+.card h2{margin:0 0 .5rem;font-size:1rem}
+.card h3{margin:.65rem 0 .4rem;font-size:.92rem;color:#cbd5e1}
+.tog,.tog{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .65rem}
+.tog label{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:.32rem .55rem;background:#0f1419;display:flex;gap:.3rem;align-items:center}
+svg{width:100%;height:auto;background:#0b1016;border-radius:12px;border:1px solid var(--line)}
+.detail{margin-top:.65rem;padding:.7rem;border-radius:10px;background:#0f1419;border:1px solid var(--line);font-size:.86rem;min-height:3.1rem}
+.badge{font-size:.65rem;padding:.12rem .4rem;border-radius:6px;margin-left:.25rem;vertical-align:middle}
+.ok{background:rgba(34,197,94,.2);color:var(--ok)}.warn{background:rgba(245,158,11,.2);color:var(--warn)}
+ul{margin:.2rem 0;padding-left:1.15rem}li{margin:.38rem 0}
+.note{color:var(--muted);font-size:.8rem;margin:0 0 .5rem}
+footer{position:fixed;left:0;right:0;bottom:0;background:rgba(15,20,25,.96);border-top:1px solid var(--line);padding:.5rem 1rem;font-size:.7rem;color:var(--muted);padding-bottom:calc(.5rem + env(safe-area-inset-bottom))}
+.hot{cursor:pointer}.hot.sel{filter:brightness(1.25);stroke-width:3}
+.hide{display:none !important}
+.mini{display:flex;gap:.3rem;overflow-x:auto;position:sticky;top:108px;z-index:28;background:var(--bg);padding:.35rem 0 .55rem;-webkit-overflow-scrolling:touch}
+.mini button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:.4rem .7rem;font-size:.75rem;font-weight:600;white-space:nowrap}
+.mini button.on{background:#1e3a5f;border-color:var(--accent);color:#fff}
+.wsec{display:none}.wsec.on{display:block}
+.flow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;line-height:1.55;white-space:pre;overflow-x:auto;background:#0b1016;border:1px solid var(--line);border-radius:10px;padding:.7rem;color:#a5b4c8;margin:.4rem 0}
+.chk{list-style:none;padding-left:0}
+.chk li{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.chk li:last-child{border-bottom:none}
+.chk input{margin-top:.2rem;accent-color:var(--accent);width:1.05rem;height:1.05rem;flex-shrink:0}
+.taprow{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
+.taprow button{border:1px solid var(--line);background:#0f1419;color:var(--text);border-radius:8px;padding:.4rem .55rem;font-size:.72rem}
+.taprow button.sel{border-color:var(--accent);background:#1e3a5f}
+</style>
+</head>
+<body>
+<header>
+  <h1>Redhawk Solar</h1>
+  <div class="sub">Phone view · PASS-WITH-FIXES · GC3H <b>stackable</b></div>
+</header>
+<nav>
+  <button class="on" type="button" data-tab="roof">Roof</button>
+  <button type="button" data-tab="bay">Bay</button>
+  <button type="button" data-tab="wire">Wire</button>
+  <button type="button" data-tab="list">List</button>
+</nav>
+<main>
+  <section id="roof" class="tab on">
+    <div class="card">
+      <h2>Roof <span class="badge ok">800W target</span></h2>
+      <div class="tog">
+        <label><input type="checkbox" id="lp" checked> Panels</label>
+        <label><input type="checkbox" id="lw" checked> Wire</label>
+        <label><input type="checkbox" id="lk" checked> Keep-outs</label>
+        <label><input type="checkbox" id="lr" checked> Removed</label>
+      </div>
+      <svg viewBox="0 0 340 520" id="roofSvg">
+        <rect x="40" y="30" width="260" height="460" rx="8" fill="#1c2430" stroke="#3a4a60"/>
+        <text x="170" y="22" text-anchor="middle" fill="#9aa8bc" font-size="11">FRONT / CAB</text>
+        <text x="170" y="508" text-anchor="middle" fill="#9aa8bc" font-size="11">REAR</text>
+        <text x="14" y="270" fill="#9aa8bc" font-size="10" transform="rotate(-90 14 270)">DRIVER</text>
+        <text x="326" y="248" fill="#22c55e" font-size="10" transform="rotate(90 326 248)">PASSENGER</text>
+        <rect class="Lkeep" x="40" y="30" width="260" height="161" fill="rgba(34,197,94,.07)" stroke="#22c55e" stroke-dasharray="4 3"/>
+        <text class="Lkeep" x="48" y="44" fill="#22c55e" font-size="9">7 ft seal → AC</text>
+        <rect class="hot" data-id="ac" x="120" y="191" width="100" height="70" rx="4" fill="#111" stroke="#888"/>
+        <text class="hot" data-id="ac" x="170" y="230" text-anchor="middle" fill="#fff" font-size="12">AC</text>
+        <rect class="hot Lkeep" data-id="fridge" x="250" y="205" width="40" height="28" rx="3" fill="#555" stroke="#999"/>
+        <text class="hot Lkeep" data-id="fridge" x="270" y="223" text-anchor="middle" fill="#fff" font-size="8">fridge</text>
+        <rect class="hot Lrem" data-id="antenna" x="250" y="48" width="36" height="28" rx="3" fill="#3a2a2a" stroke="#ef4444" stroke-dasharray="3 2"/>
+        <text class="hot Lrem" data-id="antenna" x="268" y="65" text-anchor="middle" fill="#ef4444" font-size="8">ant patch</text>
+        <g class="Lpan">
+          <rect class="hot" data-id="p1" x="50" y="55" width="55" height="120" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2"/>
+          <text class="hot" data-id="p1" x="77" y="118" text-anchor="middle" fill="#fff" font-size="12">P1</text>
+          <rect class="hot" data-id="p2" x="112" y="55" width="55" height="120" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2"/>
+          <text class="hot" data-id="p2" x="139" y="118" text-anchor="middle" fill="#fff" font-size="12">P2</text>
+          <rect class="hot" data-id="p3" x="174" y="55" width="55" height="120" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2"/>
+          <text class="hot" data-id="p3" x="201" y="118" text-anchor="middle" fill="#fff" font-size="12">P3</text>
+          <rect class="hot" data-id="p4" x="70" y="270" width="160" height="55" rx="3" fill="#1e3a5f" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 3"/>
+          <text class="hot" data-id="p4" x="150" y="295" text-anchor="middle" fill="#fbbf24" font-size="11">P4 sideways</text>
+          <text class="hot" data-id="p4" x="150" y="310" text-anchor="middle" fill="#f59e0b" font-size="8">tape ~42″ clear</text>
+        </g>
+        <rect class="hot" data-id="factory" x="145" y="340" width="50" height="28" rx="3" fill="#7c2d12" stroke="#ef4444"/>
+        <text class="hot" data-id="factory" x="170" y="357" text-anchor="middle" fill="#fecaca" font-size="8">FACTORY ✕</text>
+        <rect class="hot Lkeep" data-id="sky" x="180" y="400" width="55" height="45" rx="4" fill="#854d0e" stroke="#fbbf24"/>
+        <text class="hot Lkeep" data-id="sky" x="207" y="425" text-anchor="middle" fill="#fff" font-size="8">skylight</text>
+        <rect class="hot Lkeep" data-id="ladder" x="45" y="445" width="28" height="35" rx="2" fill="#94a3b8"/>
+        <text class="hot Lkeep" data-id="ladder" x="59" y="465" text-anchor="middle" fill="#0f1419" font-size="7">ladder</text>
+        <rect class="hot" data-id="gland" x="100" y="430" width="55" height="32" rx="4" fill="#0369a1" stroke="#38bdf8" stroke-width="2"/>
+        <text class="hot" data-id="gland" x="127" y="449" text-anchor="middle" fill="#e0f2fe" font-size="8">NEW GLAND</text>
+        <polyline class="Lwire" points="77,175 77,185 280,185 280,445 155,445" fill="none" stroke="#f97316" stroke-width="3" stroke-dasharray="6 4"/>
+      </svg>
+      <div class="detail" id="roofDetail">Tap a part for details.</div>
+    </div>
+  </section>
+
+  <section id="bay" class="tab">
+    <div class="card">
+      <h2>Bay <span class="badge ok">GC3H stacked</span></h2>
+      <p class="note">Looking into door · 46″W × 31.5″H × 20″D · batteries <b>stack</b></p>
+      <div class="tog">
+        <label><input type="radio" name="orient" value="stack" checked> Stacked (preferred)</label>
+        <label><input type="radio" name="orient" value="end"> Stand on end</label>
+      </div>
+      <svg viewBox="0 0 340 280" id="baySvg">
+        <rect x="20" y="20" width="300" height="220" rx="10" fill="#1c2430" stroke="#3a4a60" stroke-width="3"/>
+        <g id="bayStack">
+          <rect class="hot" data-id="gc" x="40" y="130" width="150" height="90" rx="4" fill="#166534" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="gc" x="115" y="165" text-anchor="middle" fill="#fff" font-size="12">GC3H STACK</text>
+          <text class="hot" data-id="gc" x="115" y="182" text-anchor="middle" fill="#bbf7d0" font-size="9">22.83″ × 7.09″ footprint</text>
+          <text class="hot" data-id="gc" x="115" y="198" text-anchor="middle" fill="#bbf7d0" font-size="9">~26.3″ tall (2×13.15″)</text>
+        </g>
+        <g id="bayEnd" class="hide">
+          <rect class="hot" data-id="gc" x="40" y="80" width="55" height="140" rx="4" fill="#166534" stroke="#4ade80" stroke-width="2"/>
+          <rect class="hot" data-id="gc" x="100" y="80" width="55" height="140" rx="4" fill="#166534" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="gc" x="97" y="155" text-anchor="middle" fill="#fff" font-size="10">on end</text>
+        </g>
+        <rect class="hot" data-id="mp" x="210" y="50" width="90" height="150" rx="4" fill="#1e3a8a" stroke="#93c5fd" stroke-width="2"/>
+        <text class="hot" data-id="mp" x="255" y="125" text-anchor="middle" fill="#fff" font-size="11">MultiPlus</text>
+        <rect class="hot" data-id="classt" x="210" y="210" width="42" height="22" rx="3" fill="#7f1d1d" stroke="#fca5a5"/>
+        <text class="hot" data-id="classt" x="231" y="225" text-anchor="middle" fill="#fff" font-size="7">Class-T</text>
+        <rect class="hot" data-id="switch" x="258" y="210" width="42" height="22" rx="3" fill="#444" stroke="#aaa"/>
+        <text class="hot" data-id="switch" x="279" y="225" text-anchor="middle" fill="#fff" font-size="7">switch</text>
+        <rect class="hot" data-id="lynx" x="40" y="40" width="70" height="35" rx="3" fill="#334155" stroke="#94a3b8"/>
+        <text class="hot" data-id="lynx" x="75" y="61" text-anchor="middle" fill="#fff" font-size="9">Lynx</text>
+        <rect class="hot" data-id="mppt" x="118" y="40" width="50" height="35" rx="3" fill="#9a3412" stroke="#fdba74"/>
+        <text class="hot" data-id="mppt" x="143" y="61" text-anchor="middle" fill="#fff" font-size="9">MPPT</text>
+        <rect class="hot" data-id="cerbo" x="175" y="40" width="28" height="35" rx="3" fill="#5b21b6" stroke="#c4b5fd"/>
+        <text class="hot" data-id="cerbo" x="189" y="61" text-anchor="middle" fill="#fff" font-size="7">Cerbo</text>
+        <circle class="hot" data-id="pvin" cx="55" cy="115" r="10" fill="#ea580c" stroke="#fdba74"/>
+        <text class="hot" data-id="pvin" x="55" y="118" text-anchor="middle" fill="#fff" font-size="7">PV</text>
+      </svg>
+      <div class="detail" id="bayDetail">Tap a part. Stack preferred for 20″ depth.</div>
+    </div>
+  </section>
+
+  <section id="wire" class="tab">
+    <div class="mini" id="wireNav">
+      <button type="button" class="on" data-wsec="wdc">DC</button>
+      <button type="button" data-wsec="wpv">PV</button>
+      <button type="button" data-wsec="wac">AC</button>
+      <button type="button" data-wsec="wcom">Comms</button>
+      <button type="button" data-wsec="wseq">Sequence</button>
+    </div>
+
+    <div id="wdc" class="wsec on">
+      <div class="card">
+        <h2>DC power path <span class="badge ok">order matters</span></h2>
+        <p class="note">Tap nodes or boxes below. Class-T is the battery fuse — do not MEGA-fuse MultiPlus at Lynx.</p>
+        <svg viewBox="0 0 340 420" id="dcSvg">
+          <text x="170" y="18" text-anchor="middle" fill="#9aa8bc" font-size="10">POSITIVE (+)</text>
+          <rect class="hot" data-id="wgc+" x="20" y="30" width="70" height="36" rx="5" fill="#166534" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="wgc+" x="55" y="52" text-anchor="middle" fill="#fff" font-size="10">GC3H +</text>
+          <path d="M90 48 H115" stroke="#ef4444" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wct" x="115" y="30" width="80" height="36" rx="5" fill="#7f1d1d" stroke="#fca5a5" stroke-width="2"/>
+          <text class="hot" data-id="wct" x="155" y="46" text-anchor="middle" fill="#fff" font-size="9">Class-T</text>
+          <text class="hot" data-id="wct" x="155" y="58" text-anchor="middle" fill="#fecaca" font-size="8">400A</text>
+          <path d="M195 48 H215" stroke="#ef4444" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wsw" x="215" y="30" width="105" height="36" rx="5" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+          <text class="hot" data-id="wsw" x="267" y="46" text-anchor="middle" fill="#fff" font-size="9">Blue Sea</text>
+          <text class="hot" data-id="wsw" x="267" y="58" text-anchor="middle" fill="#cbd5e1" font-size="8">350A switch</text>
+          <path d="M267 66 V90" stroke="#ef4444" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wlynx" x="100" y="90" width="140" height="40" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text class="hot" data-id="wlynx" x="170" y="108" text-anchor="middle" fill="#fff" font-size="11">Lynx M10 (+)</text>
+          <text class="hot" data-id="wlynx" x="170" y="122" text-anchor="middle" fill="#7dd3fc" font-size="8">main stud + MEGA branches</text>
+          <path d="M170 130 V150" stroke="#ef4444" stroke-width="3" fill="none"/>
+          <path d="M110 150 H230" stroke="#ef4444" stroke-width="2" fill="none"/>
+          <path d="M110 150 V165" stroke="#ef4444" stroke-width="2" fill="none"/>
+          <path d="M170 150 V165" stroke="#ef4444" stroke-width="2" fill="none"/>
+          <path d="M230 150 V165" stroke="#ef4444" stroke-width="2" fill="none"/>
+          <rect class="hot" data-id="wmpdc" x="55" y="165" width="110" height="44" rx="5" fill="#1e3a8a" stroke="#93c5fd" stroke-width="2"/>
+          <text class="hot" data-id="wmpdc" x="110" y="183" text-anchor="middle" fill="#fff" font-size="9">MultiPlus DC</text>
+          <text class="hot" data-id="wmpdc" x="110" y="197" text-anchor="middle" fill="#bfdbfe" font-size="7">2×1/0 (or short 4/0)</text>
+          <rect class="hot" data-id="wmega" x="180" y="165" width="100" height="44" rx="5" fill="#9a3412" stroke="#fdba74" stroke-width="2"/>
+          <text class="hot" data-id="wmega" x="230" y="183" text-anchor="middle" fill="#fff" font-size="9">MEGA fuses</text>
+          <text class="hot" data-id="wmega" x="230" y="197" text-anchor="middle" fill="#fed7aa" font-size="7">MPPT / Orion / loads</text>
+
+          <text x="170" y="240" text-anchor="middle" fill="#9aa8bc" font-size="10">NEGATIVE (−)</text>
+          <rect class="hot" data-id="wgc-" x="20" y="255" width="70" height="36" rx="5" fill="#166534" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="wgc-" x="55" y="277" text-anchor="middle" fill="#fff" font-size="10">GC3H −</text>
+          <path d="M90 273 H120" stroke="#64748b" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wshunt" x="120" y="255" width="110" height="36" rx="5" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+          <text class="hot" data-id="wshunt" x="175" y="271" text-anchor="middle" fill="#fff" font-size="9">SmartShunt</text>
+          <text class="hot" data-id="wshunt" x="175" y="283" text-anchor="middle" fill="#fde68a" font-size="8">500A · main −</text>
+          <path d="M230 273 H250" stroke="#64748b" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wlynx-" x="250" y="255" width="70" height="36" rx="5" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+          <text class="hot" data-id="wlynx-" x="285" y="277" text-anchor="middle" fill="#fff" font-size="9">Lynx −</text>
+
+          <rect class="hot" data-id="wlugs" x="40" y="320" width="260" height="70" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+          <text class="hot" data-id="wlugs" x="170" y="345" text-anchor="middle" fill="#e2e8f0" font-size="11">Lug holes (order both)</text>
+          <text class="hot" data-id="wlugs" x="170" y="365" text-anchor="middle" fill="#94a3b8" font-size="9">MultiPlus M8 · Lynx M10 · GC3H ⅜″ or ⁵⁄₁₆″</text>
+          <text class="hot" data-id="wlugs" x="170" y="380" text-anchor="middle" fill="#64748b" font-size="8">NOT a lone 2/0 pair · dual M8 studs on MultiPlus</text>
+        </svg>
+        <div class="detail" id="dcDetail">Tap a DC node for lug / fuse / cable detail.</div>
+        <div class="flow">GC3H(+) → Class-T 400A (inches from +)
+         → Blue Sea 350A switch
+         → Lynx Distributor M10 (+)
+              ├─ MultiPlus  2×1/0 / short 4/0
+              ├─ MEGA ~80A → MPPT bat
+              ├─ MEGA → future Orion
+              └─ MEGA → DC loads
+
+GC3H(−) → SmartShunt 500A → Lynx (−)</div>
+      </div>
+    </div>
+
+    <div id="wpv" class="wsec">
+      <div class="card">
+        <h2>PV path <span class="badge ok">4S only</span></h2>
+        <p class="note">~112 Voc STC · cold ~126–130 V · stay under 150 V · <b>do NOT 5S</b></p>
+        <svg viewBox="0 0 340 360" id="pvSvg">
+          <rect class="hot" data-id="wp4s" x="30" y="20" width="280" height="50" rx="6" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2"/>
+          <text class="hot" data-id="wp4s" x="170" y="42" text-anchor="middle" fill="#fff" font-size="12">Roof JJN panels · 4S</text>
+          <text class="hot" data-id="wp4s" x="170" y="58" text-anchor="middle" fill="#93c5fd" font-size="9">series MC4s on roof · ~112 Voc</text>
+          <path d="M170 70 V90" stroke="#f97316" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wgland2" x="80" y="90" width="180" height="40" rx="5" fill="#0369a1" stroke="#38bdf8" stroke-width="2"/>
+          <text class="hot" data-id="wgland2" x="170" y="108" text-anchor="middle" fill="#e0f2fe" font-size="10">NEW rear dual gland</text>
+          <text class="hot" data-id="wgland2" x="170" y="122" text-anchor="middle" fill="#7dd3fc" font-size="8">above exterior bunk bay</text>
+          <path d="M170 130 V150" stroke="#f97316" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="w6awg" x="95" y="150" width="150" height="36" rx="5" fill="#7c2d12" stroke="#fb923c" stroke-width="2"/>
+          <text class="hot" data-id="w6awg" x="170" y="172" text-anchor="middle" fill="#fff" font-size="11">6 AWG into bay</text>
+          <path d="M170 186 V205" stroke="#f97316" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wpvdisc" x="55" y="205" width="230" height="44" rx="5" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+          <text class="hot" data-id="wpvdisc" x="170" y="223" text-anchor="middle" fill="#fff" font-size="10">2-pole DC PV disconnect</text>
+          <text class="hot" data-id="wpvdisc" x="170" y="238" text-anchor="middle" fill="#fde68a" font-size="8">≥150 V · 20–30 A · bay-accessible</text>
+          <path d="M170 249 V268" stroke="#f97316" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wmppt2" x="80" y="268" width="180" height="36" rx="5" fill="#9a3412" stroke="#fdba74" stroke-width="2"/>
+          <text class="hot" data-id="wmppt2" x="170" y="290" text-anchor="middle" fill="#fff" font-size="11">SmartSolar 150/60</text>
+          <path d="M170 304 V320" stroke="#ef4444" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wlynxpv" x="95" y="320" width="150" height="30" rx="5" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+          <text class="hot" data-id="wlynxpv" x="170" y="340" text-anchor="middle" fill="#fff" font-size="10">Lynx (MEGA ~80A)</text>
+        </svg>
+        <div class="detail" id="pvDetail">Tap a PV node. Cap factory prep both ends — unused for 800W.</div>
+        <div class="flow">4S MC4 (roof) → new rear dual gland
+ → 6 AWG → PV disconnect ≥150V
+ → SmartSolar 150/60 → Lynx fused
+
+FACTORY PREP WIRES: CAP BOTH ENDS</div>
+      </div>
+    </div>
+
+    <div id="wac" class="wsec">
+      <div class="card">
+        <h2>AC / coach <span class="badge warn">lithium day</span></h2>
+        <p class="note">Same day lithium lands: isolator off + stock converter off before MultiPlus AC-out is live.</p>
+        <svg viewBox="0 0 340 300" id="acSvg">
+          <rect class="hot" data-id="wshore" x="20" y="25" width="130" height="40" rx="5" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+          <text class="hot" data-id="wshore" x="85" y="42" text-anchor="middle" fill="#fff" font-size="10">Shore 30A</text>
+          <text class="hot" data-id="wshore" x="85" y="55" text-anchor="middle" fill="#94a3b8" font-size="8">or Onan gen</text>
+          <path d="M150 45 H175" stroke="#a78bfa" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wxfer" x="175" y="25" width="145" height="40" rx="5" fill="#312e81" stroke="#a78bfa" stroke-width="2"/>
+          <text class="hot" data-id="wxfer" x="247" y="42" text-anchor="middle" fill="#fff" font-size="10">Factory transfer</text>
+          <text class="hot" data-id="wxfer" x="247" y="55" text-anchor="middle" fill="#c4b5fd" font-size="8">LOAD → MultiPlus AC-in</text>
+          <path d="M247 65 V90" stroke="#a78bfa" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wmpacin" x="90" y="90" width="160" height="40" rx="5" fill="#1e3a8a" stroke="#93c5fd" stroke-width="2"/>
+          <text class="hot" data-id="wmpacin" x="170" y="107" text-anchor="middle" fill="#fff" font-size="11">MultiPlus AC-in</text>
+          <text class="hot" data-id="wmpacin" x="170" y="121" text-anchor="middle" fill="#bfdbfe" font-size="8">limit 26–30 A first connect</text>
+          <path d="M170 130 V155" stroke="#22c55e" stroke-width="3" fill="none"/>
+          <rect class="hot" data-id="wmpacout" x="70" y="155" width="200" height="40" rx="5" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="wmpacout" x="170" y="172" text-anchor="middle" fill="#fff" font-size="11">MultiPlus AC-out</text>
+          <text class="hot" data-id="wmpacout" x="170" y="186" text-anchor="middle" fill="#bbf7d0" font-size="8">→ selected coach loads</text>
+          <rect class="hot" data-id="wiso" x="20" y="220" width="145" height="55" rx="6" fill="#7f1d1d" stroke="#fca5a5" stroke-width="2"/>
+          <text class="hot" data-id="wiso" x="92" y="242" text-anchor="middle" fill="#fecaca" font-size="10">① Isolator OFF</text>
+          <text class="hot" data-id="wiso" x="92" y="258" text-anchor="middle" fill="#fca5a5" font-size="8">chassis↔house (or fuse)</text>
+          <rect class="hot" data-id="wconv" x="175" y="220" width="145" height="55" rx="6" fill="#7f1d1d" stroke="#fca5a5" stroke-width="2"/>
+          <text class="hot" data-id="wconv" x="247" y="242" text-anchor="middle" fill="#fecaca" font-size="10">② Converter OFF</text>
+          <text class="hot" data-id="wconv" x="247" y="258" text-anchor="middle" fill="#fca5a5" font-size="8">before AC-out live</text>
+        </svg>
+        <div class="detail" id="acDetail">Tap AC path or same-day lithium steps.</div>
+        <div class="flow">Shore 30A / Onan → factory xfer LOAD
+ → MultiPlus AC-in → AC-out → loads
+
+SAME DAY Li: isolator OFF · converter OFF
+Do not parallel old flooded/AGM with GC3H</div>
+      </div>
+    </div>
+
+    <div id="wcom" class="wsec">
+      <div class="card">
+        <h2>Comms <span class="badge ok">Cerbo MK2</span></h2>
+        <p class="note">VE.Bus is RJ45 Victron — not Ethernet. Buy cables + Cerbo fuse.</p>
+        <svg viewBox="0 0 340 280" id="comSvg">
+          <rect class="hot" data-id="wcerbo" x="110" y="100" width="120" height="50" rx="6" fill="#5b21b6" stroke="#c4b5fd" stroke-width="2"/>
+          <text class="hot" data-id="wcerbo" x="170" y="122" text-anchor="middle" fill="#fff" font-size="12">Cerbo MK2</text>
+          <text class="hot" data-id="wcerbo" x="170" y="138" text-anchor="middle" fill="#ddd6fe" font-size="8">fused DC ~3–5 A</text>
+          <path d="M170 100 V70" stroke="#c4b5fd" stroke-width="2" fill="none"/>
+          <rect class="hot" data-id="wvebus" x="100" y="25" width="140" height="40" rx="5" fill="#1e3a8a" stroke="#93c5fd" stroke-width="2"/>
+          <text class="hot" data-id="wvebus" x="170" y="42" text-anchor="middle" fill="#fff" font-size="10">VE.Bus → MultiPlus</text>
+          <text class="hot" data-id="wvebus" x="170" y="55" text-anchor="middle" fill="#bfdbfe" font-size="8">RJ45 Victron cable</text>
+          <path d="M110 125 H50" stroke="#a78bfa" stroke-width="2" fill="none"/>
+          <path d="M50 125 V175" stroke="#a78bfa" stroke-width="2" fill="none"/>
+          <rect class="hot" data-id="wved1" x="15" y="175" width="120" height="40" rx="5" fill="#9a3412" stroke="#fdba74" stroke-width="2"/>
+          <text class="hot" data-id="wved1" x="75" y="192" text-anchor="middle" fill="#fff" font-size="9">VE.Direct</text>
+          <text class="hot" data-id="wved1" x="75" y="205" text-anchor="middle" fill="#fed7aa" font-size="8">→ MPPT 150/60</text>
+          <path d="M230 125 H290" stroke="#a78bfa" stroke-width="2" fill="none"/>
+          <path d="M290 125 V175" stroke="#a78bfa" stroke-width="2" fill="none"/>
+          <rect class="hot" data-id="wved2" x="205" y="175" width="120" height="40" rx="5" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+          <text class="hot" data-id="wved2" x="265" y="192" text-anchor="middle" fill="#fff" font-size="9">VE.Direct</text>
+          <text class="hot" data-id="wved2" x="265" y="205" text-anchor="middle" fill="#fde68a" font-size="8">→ SmartShunt</text>
+          <path d="M170 150 V215" stroke="#86efac" stroke-width="2" fill="none"/>
+          <rect class="hot" data-id="wsense" x="100" y="220" width="140" height="40" rx="5" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+          <text class="hot" data-id="wsense" x="170" y="237" text-anchor="middle" fill="#fff" font-size="10">Battery Sense</text>
+          <text class="hot" data-id="wsense" x="170" y="250" text-anchor="middle" fill="#bbf7d0" font-size="8">Bluetooth / optional bay</text>
+        </svg>
+        <div class="detail" id="comDetail">Tap a comms node. Still need: VE.Bus + 2× VE.Direct + Cerbo fuse.</div>
+        <div class="flow">Cerbo ← fused DC supply
+  ├─ VE.Bus  → MultiPlus
+  ├─ VE.Direct → MPPT
+  ├─ VE.Direct → SmartShunt
+  └─ Battery Sense</div>
+      </div>
+    </div>
+
+    <div id="wseq" class="wsec">
+      <div class="card">
+        <h2>Sequence checklist</h2>
+        <p class="note">Short power-up order from PASS-WITH-FIXES. Roof-only until bay fit + cable buy.</p>
+        <ul class="chk" id="seqList">
+          <li><input type="checkbox" id="s1"><label for="s1">Dry-fit JJNs · tape P4 gap (~42″) · mark rear gland</label></li>
+          <li><input type="checkbox" id="s2"><label for="s2">Buy: 2×1/0 (or 4/0)+lugs, MEGAs, 6 AWG+MC4s, PV disc, gland, VE cables</label></li>
+          <li><input type="checkbox" id="s3"><label for="s3">Bay: straps · vent high/low · MultiPlus vertical beside stack (not on tops)</label></li>
+          <li><input type="checkbox" id="s4"><label for="s4">Same day Li lands: isolator OFF · stock converter OFF</label></li>
+          <li><input type="checkbox" id="s5"><label for="s5">Batteries parallel equal cables → Class-T first (inches from +) → switch → Lynx</label></li>
+          <li><input type="checkbox" id="s6"><label for="s6">SmartShunt on main − · MPPT + 4S · Voc check before MPPT</label></li>
+          <li><input type="checkbox" id="s7"><label for="s7">MultiPlus DC (2×1/0) · Cerbo · then AC-in with current limit · converter still off</label></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Bay packaging note</h2>
+        <ul>
+          <li>GC3H <b>stackable</b> — prefer <b>STACK</b> (7.09″ into 20″ depth, ~26.3″ tall)</li>
+          <li>MultiPlus vertical beside stack · vent bay (IP22)</li>
+          <li>Do <b>not</b> sit MultiPlus on battery tops</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="list" class="tab">
+    <div class="card">
+      <h2>Still need <span class="badge warn">before power</span></h2>
+      <ul>
+        <li><b>2× AWG 1/0 per polarity</b> (or short <b>4/0</b>) — not a lone 2/0 pair</li>
+        <li>Lugs: MultiPlus M8, Lynx M10, GC3H ⅜″ or ⁵⁄₁₆″</li>
+        <li>Lynx MEGA branch fuses (MPPT ~80A, future Orion, DC loads)</li>
+        <li>6 AWG PV + MC4s + DC PV disconnect (≥150 V 2-pole)</li>
+        <li>Roof mounts + new rear dual gland + Dicor/butyl/Eternabond</li>
+        <li>VE.Bus + 2× VE.Direct + Cerbo fuse</li>
+        <li>GC3H pair — confirm <b>stack</b> straps/hardware at pickup</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Have / in transit</h2>
+      <ul>
+        <li>MultiPlus-II 12/3000, Cerbo MK2, SmartShunt, Sense</li>
+        <li>MPPT 150/60, Lynx M10, Blue Sea 350A, Class-T + 400A</li>
+        <li>JJN ~800W panels (Erie ~Tue Sep 22)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Verify rules</h2>
+      <ul>
+        <li>Array <b>4S</b> (~112 Voc) — do not 5S</li>
+        <li>Cap factory prep both ends</li>
+        <li>Lithium day: isolator off + stock converter off</li>
+        <li>Vent exterior bay (IP22 MultiPlus)</li>
+        <li>P4 only if ~42″ AC→gland clear</li>
+        <li><b>Stack</b> GC3Hs (7.09″ into 20″ depth)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Erie shopping</h2>
+      <ul>
+        <li><b>Boyer RV (Peach)</b> — Dicor, Eternabond, gland, mounts</li>
+        <li><b>Home Depot (Peach)</b> — hole saw, tools, tape, IPA</li>
+        <li><b>Batteries Plus / AutoZone</b> — 1/0 or 4/0, mixed lugs</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<footer>brandonmcdowra-creator.github.io/redhawk-solar-phone · pull to refresh after updates</footer>
+<script>
+const INFO = {
+  ac:["Rooftop AC","Keep. ~7 ft aft of front seal. Leave service gap. No panel feet on shroud."],
+  fridge:["Fridge vent","Passenger mid keep-out."],
+  antenna:["TV antenna removed","Seal patch. Frees P3. Not a wire drop."],
+  p1:["P1 JJN ~200W","~53.7×30.3. Ahead of AC, driver. Fore-aft."],
+  p2:["P2 JJN ~200W","Center of front three."],
+  p3:["P3 JJN ~200W","Passenger front / old antenna zone after patch."],
+  p4:["P4 conditional","Sideways between AC and factory gland. Need ~42 in clear. Else drop to 600W."],
+  factory:["Factory solar prep","Gland may stay as marker. CAP conductors both ends — not for 800W."],
+  gland:["NEW rear PV gland","Dual-cable entry on rear roof above exterior bunk bay. 6 AWG to MPPT."],
+  sky:["Skylight","Keep clear of panel feet and gland."],
+  ladder:["Rear ladder","Driver rear. Keep ≥6 in from new gland."],
+  gc:["Battle Born GC3H ×2 — STACKABLE","Real size 22.83×7.09×13.15 in. Prefer STACK: 7.09 into 20 depth, ~26.3 tall. Confirm stack kit at pickup."],
+  mp:["MultiPlus-II 12/3000","Vertical beside stack. Dual 1/0 (or short 4/0) per polarity. Vent bay / drip shield. Never on battery tops."],
+  classt:["Class-T 400A","Within inches of battery positive. Battery fuse — not a Lynx MEGA."],
+  switch:["Blue Sea 350A","After Class-T. Reachable with door open."],
+  lynx:["Lynx + SmartShunt","Add MEGA branch fuses. Shunt on main negative. MultiPlus unfused at Lynx."],
+  mppt:["SmartSolar 150/60","Wire array 4S. PV disconnect between array and MPPT."],
+  cerbo:["Cerbo GX MK2","Fused DC supply + VE.Bus + VE.Direct cables."],
+  pvin:["PV entry","From new rear roof gland into this bay."],
+  "wgc+":["GC3H positive","Equal-length positives from each GC3H to Class-T/bus. Do not daisy-chain."],
+  wct:["Class-T 400A","Inches from battery +. Blue Sea 5502 holder. Confirm T-ferrule seats."],
+  wsw:["Blue Sea 350A switch","After Class-T, before Lynx. Door-accessible."],
+  wlynx:["Lynx Distributor M10","Main + stud from switch. MEGA branches for MPPT/Orion/loads. Do NOT MEGA-fuse MultiPlus."],
+  wmpdc:["MultiPlus DC feed","2× AWG 1/0 per polarity (best) or short 4/0 if ≤3–4 ft. Dual M8 studs. NOT lone 2/0."],
+  wmega:["Lynx MEGA fuses","Need to buy: MPPT ~80A, future Orion, DC loads + dummy MEGAs for unused slots."],
+  "wgc-":["GC3H negative","Both packs parallel before any inverter load."],
+  wshunt:["SmartShunt 500A","Battery − → shunt; load side → Lynx −. Main negative path."],
+  "wlynx-":["Lynx negative","Return bus. MultiPlus − via 2×1/0 (or short 4/0)."],
+  wlugs:["Lug hole sizes","MultiPlus M8 · Lynx M10 (10 mm / 7/16″) · GC3H ⅜″ or ⁵⁄₁₆″. Order mixed."],
+  wp4s:["4S array","Voc ~112 V STC; cold ~126–130 V. Under 150 V. Do NOT 5S."],
+  wgland2:["New rear dual gland","Above exterior bunk bay. Sized for 6 AWG. Dicor + butyl + Eternabond."],
+  w6awg:["6 AWG PV homerun","Into bay. Stiff — drip loop + strain relief both sides. Cap factory prep."],
+  wpvdisc:["PV disconnect","2-pole DC-rated ≥150 V, 20–30 A. Between array and MPPT. Not an AC breaker."],
+  wmppt2:["SmartSolar 150/60","Tr terminals take 6 AWG. Voc check before connecting."],
+  wlynxpv:["MPPT → Lynx","Battery output via MEGA ~80A (buy fuse). Prefer ~4 AWG."],
+  wshore:["Shore / Onan","30A shore or Onan-class gen into factory transfer."],
+  wxfer:["Factory transfer path","LOAD side feeds MultiPlus AC-in. Keep stock path."],
+  wmpacin:["MultiPlus AC-in","Program current limit 26–30 A first connect. Ground relay: on inverter / off shore."],
+  wmpacout:["MultiPlus AC-out","Selected coach loads only after converter is killed."],
+  wiso:["Chassis↔house isolator","Disconnect (or its fuse) same day lithium lands — until Orion later."],
+  wconv:["Stock converter","Kill before MultiPlus AC-out is live. Two chargers fight on Li."],
+  wcerbo:["Cerbo MK2","Fused DC supply ~3–5 A. Hub for VE.Bus + VE.Direct."],
+  wvebus:["VE.Bus","RJ45 Victron cable MultiPlus↔Cerbo — not Ethernet."],
+  wved1:["VE.Direct → MPPT","Still need to buy cable (or VE.Direct-USB)."],
+  wved2:["VE.Direct → SmartShunt","Second VE.Direct run to Cerbo."],
+  wsense:["Battery Sense","Optional in one bay; Bluetooth to Cerbo stack."]
+};
+function show(el, id){
+  const d = INFO[id]; if(!d) return;
+  el.innerHTML = "<strong>"+d[0]+"</strong><br>"+d[1];
+  document.querySelectorAll(".hot").forEach(h=>h.classList.remove("sel"));
+  document.querySelectorAll('.hot[data-id="'+id+'"]').forEach(h=>h.classList.add("sel"));
+}
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("nav button").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+    const tab = document.getElementById(btn.dataset.tab);
+    if(tab) tab.classList.add("on");
+  });
+});
+document.querySelectorAll("#wireNav button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("#wireNav button").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    document.querySelectorAll(".wsec").forEach(s=>s.classList.remove("on"));
+    const sec = document.getElementById(btn.dataset.wsec);
+    if(sec) sec.classList.add("on");
+  });
+});
+[["roofSvg","roofDetail"],["baySvg","bayDetail"],["dcSvg","dcDetail"],["pvSvg","pvDetail"],["acSvg","acDetail"],["comSvg","comDetail"]].forEach(([svgId, detId])=>{
+  const svg = document.getElementById(svgId);
+  if(!svg) return;
+  svg.querySelectorAll(".hot").forEach(n=>{
+    n.addEventListener("click", ()=>show(document.getElementById(detId), n.dataset.id));
+  });
+});
+function bindLayer(id, cls){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.addEventListener("change", e=>{
+    document.querySelectorAll("."+cls).forEach(node=>node.classList.toggle("hide", !e.target.checked));
+  });
+}
+bindLayer("lp","Lpan"); bindLayer("lw","Lwire"); bindLayer("lk","Lkeep"); bindLayer("lr","Lrem");
+document.querySelectorAll('input[name="orient"]').forEach(r=>{
+  r.addEventListener("change", ()=>{
+    const stack = document.querySelector('input[name="orient"][value="stack"]').checked;
+    document.getElementById("bayStack").classList.toggle("hide", !stack);
+    document.getElementById("bayEnd").classList.toggle("hide", stack);
+  });
+});
+</script>
+</body>
+</html>
